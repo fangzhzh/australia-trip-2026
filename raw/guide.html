@@ -18,10 +18,33 @@ a { color: #3498db; }
 strong { color: #2c3e50; }
 code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
 blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px; color: #666; }
+
+/* Day sections */
+.day-section { margin: 12px 0; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; transition: all 0.3s; }
+.day-section.completed { opacity: 0.6; border-color: #a8e6a0; }
+.day-section.completed .day-header { background: #e8f5e9; }
+.day-header { display: flex; align-items: center; padding: 12px 16px; background: #f8f9fa; cursor: pointer; user-select: none; gap: 10px; position: sticky; top: 0; z-index: 10; }
+.day-header:hover { background: #e8f0fe; }
+.day-check { width: 22px; height: 22px; cursor: pointer; accent-color: #4caf50; flex-shrink: 0; }
+.day-title { flex: 1; font-size: 16px; font-weight: 600; color: #2c3e50; }
+.day-toggle { font-size: 14px; color: #888; transition: transform 0.3s; }
+.day-toggle.collapsed { transform: rotate(-90deg); }
+.day-content { padding: 0 16px 16px; transition: max-height 0.3s ease, padding 0.3s; overflow: hidden; }
+.day-content.hidden { max-height: 0 !important; padding: 0 16px; }
+
+/* Progress bar */
+.progress-bar { position: sticky; top: 0; z-index: 100; background: white; padding: 10px 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
+.progress-track { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #8bc34a); border-radius: 4px; transition: width 0.5s; }
+.progress-text { font-size: 13px; color: #888; margin-top: 4px; text-align: center; }
 </style>
 </head>
 <body>
 <h1>🇦🇺 澳洲14天亲子游完整攻略</h1>
+<div class="progress-bar">
+<div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="progress-text" id="progressText">行程进度：0/14 天</div>
+</div>
 <p><strong>西西妈妈 + 帅帅（7岁）的冬日澳洲之旅</strong></p>
 <hr>
 <h2>📋 行程总览</h2>
@@ -34,7 +57,13 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 </ul>
 <hr>
 <h2>📅 每日详细行程</h2>
-<h3>D1 (6月6日周六) - 抵达悉尼</h3>
+<div class="day-section" id="day-1">
+<div class="day-header" onclick="toggleDay(1)">
+<input type="checkbox" class="day-check" id="check-1" onclick="event.stopPropagation(); markDay(1)">
+<span class="day-title">D1 (6月6日周六) - 抵达悉尼</span>
+<span class="day-toggle" id="toggle-1">▼</span>
+</div>
+<div class="day-content" id="content-1">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>19:20 抵达Sydney Kingsford Smith Airport (SYD)</li>
@@ -62,7 +91,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>调整时差，早点休息</li>
 </ul>
 <hr>
-<h3>D2 (6月7日周日) - 悉尼经典地标</h3>
+</div>
+</div>
+<div class="day-section" id="day-2">
+<div class="day-header" onclick="toggleDay(2)">
+<input type="checkbox" class="day-check" id="check-2" onclick="event.stopPropagation(); markDay(2)">
+<span class="day-title">D2 (6月7日周日) - 悉尼经典地标</span>
+<span class="day-toggle" id="toggle-2">▼</span>
+</div>
+<div class="day-content" id="content-2">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>07:00 起床</li>
@@ -121,7 +158,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>水族馆+动物园有combo票，更便宜</li>
 </ul>
 <hr>
-<h3>D3 (6月8日周一) - Bondi Beach步道</h3>
+</div>
+</div>
+<div class="day-section" id="day-3">
+<div class="day-header" onclick="toggleDay(3)">
+<input type="checkbox" class="day-check" id="check-3" onclick="event.stopPropagation(); markDay(3)">
+<span class="day-title">D3 (6月8日周一) - Bondi Beach步道</span>
+<span class="day-toggle" id="toggle-3">▼</span>
+</div>
+<div class="day-content" id="content-3">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>07:30 起床</li>
@@ -164,7 +209,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>Bronte Beach有很棒的儿童游乐区</li>
 </ul>
 <hr>
-<h3>D4 (6月9日周二) - 悉尼鱼市场+Darling Harbour</h3>
+</div>
+</div>
+<div class="day-section" id="day-4">
+<div class="day-header" onclick="toggleDay(4)">
+<input type="checkbox" class="day-check" id="check-4" onclick="event.stopPropagation(); markDay(4)">
+<span class="day-title">D4 (6月9日周二) - 悉尼鱼市场+Darling Harbour</span>
+<span class="day-toggle" id="toggle-4">▼</span>
+</div>
+<div class="day-content" id="content-4">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床</li>
@@ -217,7 +270,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>傍晚时分景色最美</li>
 </ul>
 <hr>
-<h3>D5 (6月10日周三) - 租车去蓝山</h3>
+</div>
+</div>
+<div class="day-section" id="day-5">
+<div class="day-header" onclick="toggleDay(5)">
+<input type="checkbox" class="day-check" id="check-5" onclick="event.stopPropagation(); markDay(5)">
+<span class="day-title">D5 (6月10日周三) - 租车去蓝山</span>
+<span class="day-toggle" id="toggle-5">▼</span>
+</div>
+<div class="day-content" id="content-5">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>07:00 起床，退房</li>
@@ -288,7 +349,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>下载7-Eleven Fuel App查找便宜加油站</li>
 </ul>
 <hr>
-<h3>D6 (6月11日周四) - 蓝山Scenic World</h3>
+</div>
+</div>
+<div class="day-section" id="day-6">
+<div class="day-header" onclick="toggleDay(6)">
+<input type="checkbox" class="day-check" id="check-6" onclick="event.stopPropagation(); markDay(6)">
+<span class="day-title">D6 (6月11日周四) - 蓝山Scenic World</span>
+<span class="day-toggle" id="toggle-6">▼</span>
+</div>
+<div class="day-content" id="content-6">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床</li>
@@ -341,7 +410,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>带厚外套，山上很冷</li>
 </ul>
 <hr>
-<h3>D7 (6月12日周五) - 悉尼市区补漏+休整</h3>
+</div>
+</div>
+<div class="day-section" id="day-7">
+<div class="day-header" onclick="toggleDay(7)">
+<input type="checkbox" class="day-check" id="check-7" onclick="event.stopPropagation(); markDay(7)">
+<span class="day-title">D7 (6月12日周五) - 悉尼市区补漏+休整</span>
+<span class="day-toggle" id="toggle-7">▼</span>
+</div>
+<div class="day-content" id="content-7">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>09:00 起床，慢节奏开始</li>
@@ -396,7 +473,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>早点休息，明天要飞墨尔本</li>
 </ul>
 <hr>
-<h3>D8 (6月13日周六) - 飞墨尔本</h3>
+</div>
+</div>
+<div class="day-section" id="day-8">
+<div class="day-header" onclick="toggleDay(8)">
+<input type="checkbox" class="day-check" id="check-8" onclick="event.stopPropagation(); markDay(8)">
+<span class="day-title">D8 (6月13日周六) - 飞墨尔本</span>
+<span class="day-toggle" id="toggle-8">▼</span>
+</div>
+<div class="day-content" id="content-8">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床，退房</li>
@@ -445,7 +530,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>CBD区域有免费电车zone，很方便</li>
 </ul>
 <hr>
-<h3>D9 (6月14日周日) - 墨尔本市区探索</h3>
+</div>
+</div>
+<div class="day-section" id="day-9">
+<div class="day-header" onclick="toggleDay(9)">
+<input type="checkbox" class="day-check" id="check-9" onclick="event.stopPropagation(); markDay(9)">
+<span class="day-title">D9 (6月14日周日) - 墨尔本市区探索</span>
+<span class="day-toggle" id="toggle-9">▼</span>
+</div>
+<div class="day-content" id="content-9">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床</li>
@@ -509,7 +602,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>Eureka 88层看日落最美</li>
 </ul>
 <hr>
-<h3>D10 (6月15日周一) - 墨尔本动物园</h3>
+</div>
+</div>
+<div class="day-section" id="day-10">
+<div class="day-header" onclick="toggleDay(10)">
+<input type="checkbox" class="day-check" id="check-10" onclick="event.stopPropagation(); markDay(10)">
+<span class="day-title">D10 (6月15日周一) - 墨尔本动物园</span>
+<span class="day-toggle" id="toggle-10">▼</span>
+</div>
+<div class="day-content" id="content-10">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床</li>
@@ -555,7 +656,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>带厚外套，动物园比较空旷</li>
 </ul>
 <hr>
-<h3>D11 (6月16日周二) - 租车开始大洋路</h3>
+</div>
+</div>
+<div class="day-section" id="day-11">
+<div class="day-header" onclick="toggleDay(11)">
+<input type="checkbox" class="day-check" id="check-11" onclick="event.stopPropagation(); markDay(11)">
+<span class="day-title">D11 (6月16日周二) - 租车开始大洋路</span>
+<span class="day-toggle" id="toggle-11">▼</span>
+</div>
+<div class="day-content" id="content-11">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>07:00 起床，退房</li>
@@ -624,7 +733,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>Apollo Bay有很多海鸥，帅帅会很兴奋</li>
 </ul>
 <hr>
-<h3>D12 (6月17日周三) - 十二门徒+返回墨尔本</h3>
+</div>
+</div>
+<div class="day-section" id="day-12">
+<div class="day-header" onclick="toggleDay(12)">
+<input type="checkbox" class="day-check" id="check-12" onclick="event.stopPropagation(); markDay(12)">
+<span class="day-title">D12 (6月17日周三) - 十二门徒+返回墨尔本</span>
+<span class="day-toggle" id="toggle-12">▼</span>
+</div>
+<div class="day-content" id="content-12">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>07:00 起床</li>
@@ -694,7 +811,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>路程较长，中途多休息</li>
 </ul>
 <hr>
-<h3>D13 (6月18日周四) - 菲利普岛企鹅归巢</h3>
+</div>
+</div>
+<div class="day-section" id="day-13">
+<div class="day-header" onclick="toggleDay(13)">
+<input type="checkbox" class="day-check" id="check-13" onclick="event.stopPropagation(); markDay(13)">
+<span class="day-title">D13 (6月18日周四) - 菲利普岛企鹅归巢</span>
+<span class="day-toggle" id="toggle-13">▼</span>
+</div>
+<div class="day-content" id="content-13">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>08:00 起床</li>
@@ -760,7 +885,15 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>租厚毛毯（现场有租）</li>
 </ul>
 <hr>
-<h3>D14 (6月19日周五) - 墨尔本最后半天+回程</h3>
+</div>
+</div>
+<div class="day-section" id="day-14">
+<div class="day-header" onclick="toggleDay(14)">
+<input type="checkbox" class="day-check" id="check-14" onclick="event.stopPropagation(); markDay(14)">
+<span class="day-title">D14 (6月19日周五) - 墨尔本最后半天+回程</span>
+<span class="day-toggle" id="toggle-14">▼</span>
+</div>
+<div class="day-content" id="content-14">
 <p><strong>🕐 时间安排</strong></p>
 <ul>
 <li>09:00 起床</li>
@@ -797,6 +930,8 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 <li>飞机上准备小毯子，帅帅睡觉用</li>
 </ul>
 <hr>
+</div>
+</div>
 <h2>🚗 租车攻略</h2>
 <h3>租车公司比价</h3>
 <ul>
@@ -1121,4 +1256,74 @@ blockquote { border-left: 4px solid #3498db; margin-left: 0; padding-left: 15px;
 </ul>
 <p><strong>Have a wonderful trip Down Under! 🇦🇺</strong></p>
 
+<script>
+const TOTAL_DAYS = 14;
+const STORE_KEY = 'au-trip-days';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveState(s) { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+
+function updateProgress() {
+  const s = loadState();
+  const done = Object.values(s).filter(v => v.done).length;
+  document.getElementById('progressFill').style.width = (done/TOTAL_DAYS*100)+'%';
+  document.getElementById('progressText').textContent = '行程进度：'+done+'/'+TOTAL_DAYS+' 天' + (done===TOTAL_DAYS?' 🎉🎉🎉':'');
+}
+
+function toggleDay(n) {
+  const el = document.getElementById('content-'+n);
+  const arrow = document.getElementById('toggle-'+n);
+  const s = loadState();
+  if (!s[n]) s[n] = {};
+  if (el.classList.contains('hidden')) {
+    el.classList.remove('hidden');
+    arrow.classList.remove('collapsed');
+    s[n].collapsed = false;
+  } else {
+    el.classList.add('hidden');
+    arrow.classList.add('collapsed');
+    s[n].collapsed = true;
+  }
+  saveState(s);
+}
+
+function markDay(n) {
+  const cb = document.getElementById('check-'+n);
+  const section = document.getElementById('day-'+n);
+  const s = loadState();
+  if (!s[n]) s[n] = {};
+  s[n].done = cb.checked;
+  if (cb.checked) {
+    section.classList.add('completed');
+    // Auto-collapse completed day
+    document.getElementById('content-'+n).classList.add('hidden');
+    document.getElementById('toggle-'+n).classList.add('collapsed');
+    s[n].collapsed = true;
+  } else {
+    section.classList.remove('completed');
+  }
+  saveState(s);
+  updateProgress();
+}
+
+// Restore state on load
+(function() {
+  const s = loadState();
+  for (let i = 1; i <= TOTAL_DAYS; i++) {
+    if (s[i]) {
+      if (s[i].done) {
+        document.getElementById('check-'+i).checked = true;
+        document.getElementById('day-'+i).classList.add('completed');
+      }
+      if (s[i].collapsed) {
+        document.getElementById('content-'+i).classList.add('hidden');
+        document.getElementById('toggle-'+i).classList.add('collapsed');
+      }
+    }
+  }
+  updateProgress();
+})();
+</script>
 </body></html>
