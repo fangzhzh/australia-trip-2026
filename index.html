@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🇦🇺 西西&帅帅 澳洲14天亲子游</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+        #map { height: 100vh; width: 100%; }
+        .legend {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 13px;
+            line-height: 1.8;
+            max-width: 280px;
+        }
+        .legend h3 { margin: 0 0 8px 0; font-size: 15px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .dot-flight { background: #e74c3c; }
+        .dot-sydney { background: #3498db; }
+        .dot-bluemtn { background: #2ecc71; }
+        .dot-melbourne { background: #9b59b6; }
+        .dot-greatocean { background: #f39c12; }
+        .dot-phillip { background: #1abc9c; }
+        .custom-popup .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+        .custom-popup .leaflet-popup-content b { color: #333; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([-35.5, 147], 6);
+        
+        // OpenStreetMap 中文标注底图
+        L.tileLayer('https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+            subdomains: 'abc'
+        }).addTo(map);
+
+        // 手动添加中文地名标注
+        const cnLabels = [
+            { lat: -33.8688, lng: 151.2093, text: "悉尼 Sydney" },
+            { lat: -37.8136, lng: 144.9631, text: "墨尔本 Melbourne" },
+            { lat: -35.2809, lng: 149.1300, text: "堪培拉 Canberra" },
+            { lat: -34.9285, lng: 138.6007, text: "阿德莱德 Adelaide" },
+            { lat: -32.9283, lng: 151.7817, text: "纽卡斯尔 Newcastle" },
+            { lat: -34.4278, lng: 150.8931, text: "卧龙岗 Wollongong" },
+            { lat: -37.5622, lng: 143.8503, text: "巴拉瑞特 Ballarat" },
+            { lat: -38.1499, lng: 144.3617, text: "吉朗 Geelong" },
+            { lat: -33.7320, lng: 150.3120, text: "蓝山 Blue Mountains" },
+            { lat: -41.4332, lng: 147.1441, text: "朗塞斯顿 Launceston" },
+            { lat: 1.3521, lng: 103.8198, text: "新加坡 Singapore" },
+        ];
+        cnLabels.forEach(l => {
+            L.marker([l.lat, l.lng], {
+                icon: L.divIcon({
+                    className: '',
+                    html: `<div style="background:rgba(255,255,255,0.85);padding:2px 6px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;color:#333;box-shadow:0 1px 3px rgba(0,0,0,0.15);pointer-events:none">${l.text}</div>`,
+                    iconSize: [0, 0],
+                    iconAnchor: [-15, 10]
+                }),
+                interactive: false
+            }).addTo(map);
+        });
+
+        function icon(color, size=10) {
+            return L.divIcon({
+                className: '',
+                html: `<div style="background:${color};width:${size}px;height:${size}px;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
+                iconSize: [size, size],
+                iconAnchor: [size/2, size/2]
+            });
+        }
+
+        function bigIcon(emoji) {
+            return L.divIcon({
+                className: '',
+                html: `<div style="font-size:24px;text-shadow:0 1px 3px rgba(0,0,0,0.3)">${emoji}</div>`,
+                iconSize: [28, 28],
+                iconAnchor: [14, 14]
+            });
+        }
+
+        const places = [
+            // === FLIGHTS ===
+            { lat: 1.3644, lng: 103.9915, name: "✈️ Singapore Changi Airport 新加坡樟宜机场", desc: "<b>D0 — Jun 6</b><br>Scoot 09:45→19:20<br>SIN → SYD", color: "#e74c3c", big: true, emoji: "🛫" },
+
+            // === SYDNEY (D1-D7) ===
+            { lat: -33.8688, lng: 151.2093, name: "🏙️ Sydney CBD 悉尼市中心", desc: "<b>D1-D5 — Jun 6-10</b><br>悉尼市区探索<br>住宿: ibis Darling Harbour 或 Meriton公寓", color: "#3498db", big: true, emoji: "🏙️" },
+            { lat: -33.8568, lng: 151.2153, name: "🎭 Sydney Opera House 悉尼歌剧院", desc: "<b>Sydney Opera House 悉尼歌剧院</b><br>Junior Tour 可选 (SGD 46)<br>外观打卡必去", color: "#3498db" },
+            { lat: -33.8523, lng: 151.2108, name: "🌉 Sydney Harbour Bridge 悉尼海港大桥", desc: "<b>Harbour Bridge 海港大桥</b><br>可步行过桥，免费", color: "#3498db" },
+            { lat: -33.8915, lng: 151.2767, name: "🏖️ Bondi Beach 邦迪海滩", desc: "<b>Bondi Beach 邦迪海滩</b><br>Bondi→Coogee 步道 6km<br>帅帅可以走完，中间Bronte有playground", color: "#3498db" },
+            { lat: -33.9173, lng: 151.2519, name: "🏖️ Coogee Beach 库吉海滩", desc: "<b>Coogee Beach 库吉海滩</b><br>Bondi→Coogee 步道终点", color: "#3498db" },
+            { lat: -33.8675, lng: 151.2020, name: "🐠 SEA LIFE Aquarium 海洋生物水族馆", desc: "<b>SEA LIFE + WILD LIFE 水族馆+野生动物园</b><br>2合1联票 SGD 75<br>Darling Harbour 达令港旁", color: "#3498db" },
+            { lat: -33.7688, lng: 150.7354, name: "🦘 Featherdale Wildlife Park 费瑟戴尔野生动物园", desc: "<b>Featherdale Wildlife Park 费瑟戴尔野生动物园</b><br>SGD 54/人<br>抱考拉、喂袋鼠", color: "#3498db" },
+            { lat: -33.8599, lng: 151.2090, name: "🐟 Sydney Fish Market 悉尼鱼市场", desc: "<b>Sydney Fish Market 悉尼鱼市场</b><br>午餐好去处", color: "#3498db" },
+            
+            // === BLUE MOUNTAINS (D5-D6) ===
+            { lat: -33.7320, lng: 150.3120, name: "⛰️ Blue Mountains 蓝山 / Katoomba 卡通巴", desc: "<b>D5-D6 — Jun 11-12</b><br>🚗 租车自驾<br>Scenic World 全日票 SGD 146<br>Three Sisters 三姐妹峰、蓝山缆车<br>比悉尼冷5-8度！", color: "#2ecc71", big: true, emoji: "⛰️" },
+            { lat: -33.6833, lng: 150.2833, name: "🏨 The Carrington Hotel 卡灵顿酒店", desc: "<b>蓝山住宿1晚</b><br>The Carrington Hotel, Katoomba 卡通巴", color: "#2ecc71" },
+            
+            // === FLIGHT SYD→MEL ===
+            { lat: -33.9461, lng: 151.1772, name: "✈️ Sydney Airport 悉尼机场 (SYD)", desc: "<b>D7 — Jun 13</b><br>Virgin Australia SYD→MEL<br>Ref: QGEOXU", color: "#e74c3c", big: true, emoji: "✈️" },
+            
+            // === MELBOURNE (D8-D14) ===
+            { lat: -37.8136, lng: 144.9631, name: "🏙️ Melbourne CBD 墨尔本市中心", desc: "<b>D8-D10 — Jun 13-15</b><br>墨尔本市区<br>CBD Free Tram Zone 免费电车区<br>住宿: Travelodge Southbank 或 Quest公寓", color: "#9b59b6", big: true, emoji: "🏙️" },
+            { lat: -37.8232, lng: 144.9584, name: "🎨 NGV 维多利亚国家美术馆", desc: "<b>National Gallery of Victoria 维多利亚国家美术馆</b><br>免费常设展", color: "#9b59b6" },
+            { lat: -37.8226, lng: 144.9689, name: "👀 Eureka Skydeck 尤里卡观景台", desc: "<b>Eureka Skydeck 尤里卡观景台</b><br>SGD 48<br>88层观景台", color: "#9b59b6" },
+            { lat: -37.8183, lng: 144.9671, name: "🏪 Queen Victoria Market 维多利亚女王市场", desc: "<b>Queen Victoria Market 维多利亚女王市场</b><br>周末集市，早餐好去处", color: "#9b59b6" },
+            { lat: -37.7963, lng: 144.9612, name: "🐨 Melbourne Zoo 墨尔本动物园", desc: "<b>Melbourne Zoo 墨尔本动物园</b><br>带帅帅好去处", color: "#9b59b6" },
+            
+            // === GREAT OCEAN ROAD (D11-D12) ===
+            { lat: -38.3397, lng: 144.3180, name: "🏄 Torquay 托基（大洋路起点）", desc: "<b>D11 — Jun 16</b><br>🚗 Great Ocean Road 大洋路起点<br>冲浪小镇", color: "#f39c12", big: true, emoji: "🏄" },
+            { lat: -38.5283, lng: 144.0350, name: "🌊 Lorne 洛恩", desc: "<b>Lorne 洛恩</b><br>大洋路途经，海滨小镇，午餐停靠", color: "#f39c12" },
+            { lat: -38.7580, lng: 143.6715, name: "🌙 Apollo Bay 阿波罗湾", desc: "<b>Apollo Bay 阿波罗湾</b><br>D11住宿 Comfort Inn<br>大洋路中点休息站", color: "#f39c12", big: true, emoji: "🌙" },
+            { lat: -38.6631, lng: 143.1050, name: "🪨 12 Apostles 十二门徒", desc: "<b>D12 — Jun 17</b><br>⭐ 大洋路最精华！<br>日出最美，注意海风极冷", color: "#f39c12", big: true, emoji: "🪨" },
+            { lat: -38.6592, lng: 143.0694, name: "🕳️ Loch Ard Gorge 洛克阿德峡谷", desc: "<b>Loch Ard Gorge 洛克阿德峡谷</b><br>十二门徒旁，必看", color: "#f39c12" },
+            { lat: -38.6333, lng: 143.0250, name: "🌉 London Arch 伦敦拱门", desc: "<b>London Arch 伦敦拱门</b><br>天然石拱", color: "#f39c12" },
+            
+            // === PHILLIP ISLAND (D13) ===
+            { lat: -38.4894, lng: 145.2363, name: "🐧 Phillip Island 菲利普岛", desc: "<b>D13 — Jun 18</b><br>🚗 自驾<br>4 Parks Pass SGD 99<br>⭐ Penguin Parade 企鹅归巢（傍晚）<br>⚠️ 体感接近0°C，带暖宝宝！", color: "#1abc9c", big: true, emoji: "🐧" },
+            { lat: -38.5069, lng: 145.1647, name: "🦭 The Nobbies 诺比斯角", desc: "<b>The Nobbies 诺比斯角</b><br>Seal 海豹观赏，4 Parks Pass 包含", color: "#1abc9c" },
+            { lat: -38.4553, lng: 145.2280, name: "🐨 Koala Conservation Centre 考拉保护中心", desc: "<b>Koala Conservation Centre 考拉保护中心</b><br>4 Parks Pass 包含", color: "#1abc9c" },
+
+            // === FLIGHT MEL→SIN ===
+            { lat: -37.6690, lng: 144.8410, name: "✈️ Melbourne Airport 墨尔本机场 (MEL)", desc: "<b>D14 — Jun 19</b><br>Scoot 21:30→03:35+1<br>Ref: WYRSQM<br>SGD 738.41", color: "#e74c3c", big: true, emoji: "🛫" },
+        ];
+
+        // Draw routes
+        // SYD city route
+        const sydneyRoute = [
+            [-33.8688, 151.2093], [-33.8568, 151.2153], [-33.8523, 151.2108],
+            [-33.8915, 151.2767], [-33.9173, 151.2519]
+        ];
+        L.polyline(sydneyRoute, {color: '#3498db', weight: 2, dashArray: '5,10', opacity: 0.5}).addTo(map);
+
+        // Blue Mountains drive
+        const blueMtnRoute = [
+            [-33.8688, 151.2093], [-33.7688, 150.7354], [-33.7320, 150.3120]
+        ];
+        L.polyline(blueMtnRoute, {color: '#2ecc71', weight: 3, dashArray: '10,5', opacity: 0.7}).addTo(map);
+
+        // Flight SYD→MEL
+        L.polyline([[-33.9461, 151.1772], [-37.6690, 144.8410]], {color: '#e74c3c', weight: 2, dashArray: '15,10', opacity: 0.5}).addTo(map);
+
+        // Great Ocean Road drive
+        const gorRoute = [
+            [-37.8136, 144.9631], [-38.3397, 144.3180], [-38.5283, 144.0350],
+            [-38.7580, 143.6715], [-38.6631, 143.1050], [-38.6592, 143.0694],
+            [-38.6333, 143.0250]
+        ];
+        L.polyline(gorRoute, {color: '#f39c12', weight: 3, opacity: 0.7}).addTo(map);
+
+        // Phillip Island drive
+        const phillipRoute = [
+            [-37.8136, 144.9631], [-38.4894, 145.2363]
+        ];
+        L.polyline(phillipRoute, {color: '#1abc9c', weight: 3, dashArray: '10,5', opacity: 0.7}).addTo(map);
+
+        // Flight SIN→SYD
+        L.polyline([[1.3644, 103.9915], [-33.9461, 151.1772]], {color: '#e74c3c', weight: 1, dashArray: '15,15', opacity: 0.3}).addTo(map);
+
+        // Add markers
+        places.forEach(p => {
+            let marker;
+            if (p.big && p.emoji) {
+                marker = L.marker([p.lat, p.lng], {icon: bigIcon(p.emoji)});
+            } else {
+                marker = L.marker([p.lat, p.lng], {icon: icon(p.color)});
+            }
+            marker.addTo(map).bindPopup(`<div class="custom-popup"><b>${p.name}</b><br>${p.desc}</div>`);
+        });
+
+        // Legend
+        const legend = L.control({position: 'bottomleft'});
+        legend.onAdd = function() {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = `
+                <h3>🇦🇺 西西&帅帅 14天亲子游</h3>
+                <div class="legend-item"><span class="dot dot-flight"></span> ✈️ 航班</div>
+                <div class="legend-item"><span class="dot dot-sydney"></span> D1-D5 悉尼市区</div>
+                <div class="legend-item"><span class="dot dot-bluemtn"></span> D5-D6 🚗 蓝山自驾</div>
+                <div class="legend-item"><span class="dot dot-melbourne"></span> D8-D10 墨尔本市区</div>
+                <div class="legend-item"><span class="dot dot-greatocean"></span> D11-D12 🚗 大洋路</div>
+                <div class="legend-item"><span class="dot dot-phillip"></span> D13 🐧 菲利普岛</div>
+                <div style="margin-top:8px;font-size:11px;color:#888">Jun 6-19, 2026</div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
+    </script>
+</body>
+</html>
