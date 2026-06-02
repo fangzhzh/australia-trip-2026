@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🇦🇺 澳洲亲子游攻略 - PDF版本</title>
+<style>
+/* PDF打印专用样式 */
+@page {
+    size: A4;
+    margin: 15mm 10mm;
+}
+
+body { 
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+.pdf-header {
+    text-align: center;
+    border-bottom: 2px solid #333;
+    margin-bottom: 15pt;
+    padding-bottom: 10pt;
+}
+
+.pdf-header h1 {
+    font-size: 18pt;
+    margin: 0;
+    color: #000;
+}
+
+.pdf-header .subtitle {
+    font-size: 12pt;
+    color: #666;
+    margin: 5pt 0 0 0;
+}
+
+h1, h2, h3 { 
+    color: #000; 
+    page-break-after: avoid;
+    margin-top: 15pt;
+    margin-bottom: 8pt;
+}
+
+h1 { font-size: 16pt; border-bottom: 1px solid #000; padding-bottom: 3pt; }
+h2 { font-size: 14pt; border-bottom: 1px solid #666; padding-bottom: 2pt; }
+h3 { font-size: 12pt; font-weight: bold; }
+
+table { 
+    border-collapse: collapse; 
+    width: 100%; 
+    margin: 8pt 0;
+    page-break-inside: avoid;
+}
+
+th, td { 
+    border: 1px solid #333; 
+    padding: 4pt 6pt; 
+    text-align: left;
+    font-size: 10pt;
+}
+
+th { 
+    background-color: #f0f0f0; 
+    font-weight: bold;
+}
+
+tr:nth-child(even) { 
+    background-color: #f8f8f8; 
+}
+
+ul, ol { 
+    padding-left: 15pt; 
+    margin: 6pt 0;
+}
+
+li {
+    margin-bottom: 3pt;
+}
+
+.checklist {
+    page-break-inside: avoid;
+}
+
+.checklist li {
+    list-style: none;
+    position: relative;
+    padding-left: 20pt;
+}
+
+.checklist li:before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.status-confirmed {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.important-note {
+    background: #f0f0f0;
+    border-left: 3pt solid #333;
+    padding: 6pt;
+    margin: 8pt 0;
+    page-break-inside: avoid;
+}
+
+.page-break {
+    page-break-before: always;
+}
+
+strong { 
+    font-weight: bold;
+    color: #000;
+}
+
+.flight-info {
+    background: #f8f9fa;
+    padding: 8pt;
+    margin: 8pt 0;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+}
+
+.day-section {
+    page-break-inside: avoid;
+    margin-bottom: 15pt;
+}
+
+@media print {
+    .no-print { display: none !important; }
+    
+    body { 
+        font-size: 10pt; 
+        line-height: 1.3;
+    }
+    
+    .pdf-buttons {
+        display: none !important;
+    }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="pdf-buttons no-print" style="position: fixed; top: 20px; right: 20px; z-index: 1000; background: white; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <button onclick="downloadPDF()" style="background: #3498db; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 3px; cursor: pointer;">📄 下载PDF</button>
+    <button onclick="window.print()" style="background: #27ae60; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 3px; cursor: pointer;">🖨️ 直接打印</button>
+</div>
+
+<div class="pdf-content">
+    <div class="pdf-header">
+        <h1>🇦🇺 澳洲14天亲子游完整攻略</h1>
+        <div class="subtitle">妈妈 + 小朋友（7岁）的冬日澳洲之旅 | 2026年6月</div>
+    </div>
+
+    <div class="flight-info">
+        <h2>✈️ 已确认航班信息</h2>
+        <table>
+            <tr><th>航段</th><th>航班</th><th>日期</th><th>预订号</th><th>状态</th></tr>
+            <tr><td>新加坡→悉尼</td><td>Scoot TR12</td><td>6月6日 09:45→19:20</td><td>PGP4JH</td><td class="status-confirmed">✅ 已确认</td></tr>
+            <tr><td>悉尼→墨尔本</td><td>Virgin Australia VA838</td><td>6月13日</td><td>QGEOXU</td><td class="status-confirmed">✅ 已确认</td></tr>
+            <tr><td>墨尔本→新加坡</td><td>Scoot TR16</td><td>6月19日 21:30→03:35+1</td><td>WYRSQM</td><td class="status-confirmed">✅ 已确认</td></tr>
+        </table>
+    </div>
+
+    <h2>🏨 住宿信息</h2>
+    <table>
+        <tr><th>城市</th><th>类型</th><th>日期</th><th>状态</th></tr>
+        <tr><td>悉尼</td><td>Darlinghurst Central Studio Airbnb</td><td>6月6-13日 (7晚)</td><td class="status-confirmed">✅ 已确认</td></tr>
+        <tr><td>墨尔本</td><td>待预订</td><td>6月13日起 (6晚)</td><td class="status-pending">🕐 待确认</td></tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>📋 每日行程安排</h2>
+
+    <div class="day-section">
+        <h3>D1 (6月6日周六) - 抵达悉尼</h3>
+        <ul>
+            <li><strong>19:20</strong> 抵达Sydney Kingsford Smith Airport</li>
+            <li><strong>20:00</strong> 入境、取行李</li>
+            <li><strong>21:00</strong> 前往Darlinghurst住宿</li>
+            <li><strong>交通：</strong>机场快线或Uber (约45-60分钟)</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D2-D3 - 悉尼市区</h3>
+        <ul>
+            <li>🏛️ 悉尼歌剧院 + 海港大桥</li>
+            <li>🏛️ 皇家植物园</li>
+            <li>🐠 SEA LIFE悉尼水族馆</li>
+            <li>🦘 WILD LIFE悉尼动物园</li>
+            <li>🏢 达令港 + 儿童游乐场</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D4-D5 - 蓝山一日游</h3>
+        <ul>
+            <li>🚗 租车自驾 (建议提前预订)</li>
+            <li>🏔️ 三姐妹峰 (Echo Point)</li>
+            <li>🚡 Scenic World景观世界</li>
+            <li>💰 门票：全日无限票 AUD 105成人 + AUD 61儿童</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D6-D7 - 更多悉尼</h3>
+        <ul>
+            <li>🏖️ Bondi Beach + Coastal Walk</li>
+            <li>🎡 Luna Park悉尼</li>
+            <li>🏛️ 博物馆 (儿童免费)</li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="day-section">
+        <h3>D8 (6月13日) - 悉尼最后一天 + 飞墨尔本</h3>
+        <ul>
+            <li><strong>上午</strong> 悉尼最后购物，整理行李</li>
+            <li><strong>下午</strong> Virgin Australia VA838 悉尼→墨尔本</li>
+            <li><strong>晚上</strong> 抵达墨尔本，入住墨尔本酒店</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D9-D11 - 墨尔本市区</h3>
+        <ul>
+            <li>🏙️ 联邦广场 + Flinders Street</li>
+            <li>🎨 涂鸦街 (Hosier Lane)</li>
+            <li>🏛️ 墨尔本博物馆 (儿童免费)</li>
+            <li>🎡 Luna Park墨尔本</li>
+            <li>🌃 Eureka Skydeck观景台</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D12-D13 - 大洋路 + 菲利普岛</h3>
+        <ul>
+            <li>🚗 租车3天自驾</li>
+            <li>🌊 大洋路十二门徒石</li>
+            <li>🏨 Apollo Bay住宿1晚</li>
+            <li>🐧 菲利普岛企鹅归巢 (必看！)</li>
+            <li>💰 Phillip Island 4 Parks Pass: AUD 75成人 + AUD 38儿童</li>
+        </ul>
+    </div>
+
+    <div class="day-section">
+        <h3>D14 (6月19日) - 回程</h3>
+        <ul>
+            <li><strong>白天</strong> 最后购物 + 整理行李</li>
+            <li><strong>21:30</strong> Scoot TR16 墨尔本→新加坡</li>
+            <li><strong>次日03:35</strong> 抵达新加坡</li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+
+
+    <div class="important-note">
+        <strong>⚠️ 重要提醒：</strong>
+        <ul>
+            <li>澳洲为冬季，温度8-17°C，请带足够保暖衣物</li>
+            <li>7岁儿童需要儿童安全座椅（租车时租用）</li>
+            <li>建议购买旅游保险</li>
+            <li>网上购买门票比现场便宜30%</li>
+        </ul>
+    </div>
+
+    <h2>📋 出发前检查清单</h2>
+    <div class="checklist">
+        <ul>
+            <li>确认所有航班座位选择</li>
+            <li>检查Scoot行李额度是否已购买</li>
+            <li>确认墨尔本住宿预订结果</li>
+            <li>预订租车（含儿童安全座椅）</li>
+            <li>网上购买主要景点门票</li>
+            <li>下载离线地图</li>
+            <li>准备保暖衣物</li>
+            <li>购买旅游保险</li>
+            <li>准备澳元现金</li>
+            <li>检查护照有效期</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30pt; color: #666; font-size: 9pt;">
+        <p>生成日期：2026年6月2日 | 基于实际预订信息更新</p>
+        <p>🎉 祝妈妈和小朋友澳洲之旅愉快！</p>
+    </div>
+</div>
+
+<script>
+function downloadPDF() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '⏳ 正在生成...';
+    button.disabled = true;
+    
+    const element = document.querySelector('.pdf-content');
+    
+    const opt = {
+        margin: [10, 10, 10, 10],
+        filename: '澳洲亲子游攻略-2026年6月.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { 
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            allowTaint: false
+        },
+        jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'portrait',
+            compress: true
+        },
+        pagebreak: { mode: ['css', 'legacy'] }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }).catch(error => {
+        console.error('PDF生成失败:', error);
+        alert('PDF生成失败，请尝试直接打印');
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+</script>
+
+</body>
+</html>
